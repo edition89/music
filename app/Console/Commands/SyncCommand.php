@@ -46,17 +46,18 @@ class SyncCommand extends Command
      */
     public function handle()
     {
-        $settingGet = Setting::get('media_path');
-        if (is_null($settingGet)) {
+        $path = Setting::get('media_path');
+        if (is_null($path)) {
             echo "Введите путь к папке с файлами: ";
-            $path = fgets(STDIN);
+            $inputPath = fgets(STDIN);
             $setting = new Setting();
             $setting->key = 'media_path';
-            $setting->value = $path;
+            $setting->value = $inputPath;
             $setting->save();
+
+            $path = Setting::get('media_path');
         }
 
-        $path = Setting::get('media_path');
         $this->info('Syncing media from ' . $path . PHP_EOL);
 
         $files = FileService::getDirFiles($path);
