@@ -2,6 +2,7 @@
 /public/hot
 /public/storage
 /public/music
+/public/image/covers
 /storage/*.key
 /vendor
 .env
