@@ -163,8 +163,8 @@ $(function () {
 
         //if (trackNowIndex == 0) i.attr("class", "fa fa-play");
         //else {
-            albumArt.removeClass("buffering");
-            i.attr("class", "fa fa-pause");
+        albumArt.removeClass("buffering");
+        i.attr("class", "fa fa-pause");
         //}
 
         seekBar.width(0);
@@ -326,16 +326,16 @@ $(function () {
 
         for (let i = 0; i < col.length; i++) {
             let th = document.createElement("th");
-            if(col[i] == '') th.innerHTML = col[i];
+            if (col[i] == '') th.innerHTML = col[i];
             else th.innerHTML = tableParams[col[i]].name;
             tr.appendChild(th);
         }
 
         tr = header.insertRow(-1);
 
-        for(let c of col) {
+        for (let c of col) {
             let td = document.createElement("td");
-            if(c != '') {
+            if (c != '') {
                 let size = tableParams[c].size ? tableParams[c].size : '';
                 td.innerHTML = `<input type="text" id="js-table-${c}" size="${size}">`;
             }
@@ -350,10 +350,9 @@ $(function () {
 
             for (var j = 0; j < col.length; j++) {
                 var tabCell = tr.insertCell(-1);
-                if(j == 0){
+                if (j == 0) {
                     tabCell.innerHTML = `<i data-id="${data[i].id}" class="fa fa-play js-play-track button-table"></i>`;
-                }
-                else{
+                } else {
                     tabCell.innerHTML = data[i][col[j]];
                 }
 
@@ -370,7 +369,7 @@ $(function () {
     getPlayer(offsetSong);
 
     $("#play-list").on("scroll", function () {
-        if($(this).scrollTop() == ($(this)[0].scrollHeight - $(this)[0].clientHeight)){
+        if ($(this).scrollTop() == ($(this)[0].scrollHeight - $(this)[0].clientHeight)) {
             offsetSong++;
             getPlayer(offsetSong);
         }
