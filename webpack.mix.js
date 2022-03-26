@@ -19,3 +19,4 @@ mix.js('resources/js/app.js', 'public/js').postCss('resources/css/app.css', 'pub
 
 mix.js('resources/js/main.js', 'public/js')
     .postCss('resources/css/main.css', 'public/css');
+mix.sass('resources/scss/style.scss', 'public/css');
