@@ -3,6 +3,9 @@
 /public/storage
 /public/music
 /public/image/covers
+/public/css
+/public/js
+/public/fonts
 /storage/*.key
 /vendor
 .env
