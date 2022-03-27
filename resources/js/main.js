@@ -37,7 +37,13 @@ $(function () {
         flagInit = true,
         flagPlay = false,
         flagTable = false,
-        tableParams;
+        tableParams = {
+            "album": {"name": "Альбом"},
+            "artist": {"name": "Артист"},
+            "title": {"name": "Название"},
+            "year": {"name": "Год", "size": "1"},
+            "genre": {"name": "Жанр", "size": "5"}
+        };
 
     function playPause() {
         setTimeout(function () {
@@ -48,7 +54,7 @@ $(function () {
                 pause.addClass('fa-pause');
                 albumArt.addClass("active");
                 checkBuffering();
-                i.attr("class", "fas fa-pause");
+                i.attr("class", "fa fa-pause");
                 audio.play();
             } else {
                 let play = $('#play-list').find('.fa-pause');
@@ -57,7 +63,7 @@ $(function () {
                 albumArt.removeClass("active");
                 clearInterval(buffInterval);
                 albumArt.removeClass("buffering");
-                i.attr("class", "fas fa-play");
+                i.attr("class", "fa fa-play");
                 audio.pause();
             }
         }, 300);
@@ -272,9 +278,9 @@ $(function () {
             success: function (data) {
                 let jsonData = JSON.parse(data).data;
                 for (let item of jsonData) {
+                    addDataTable(item);
                     songList.push(item);
                 }
-                tableCreate(songList);
             },
             error: function (data) {
                 offsetSong--;
@@ -308,65 +314,59 @@ $(function () {
         });
     }
 
-    function tableCreate(data) {
-        let col = [''];
-        for (let i = 0; i < data.length; i++) {
-            for (let key in data[i]) {
-                if (col.indexOf(key) === -1 && Object.keys(tableParams).indexOf(key) != -1) {
-                    col.push(key);
-                }
-            }
-        }
+    createTable();
+    getPlayer(offsetSong);
 
+    function createTable() {
         let table = document.createElement("table");
-
         let header = table.createTHead();
-
         let tr = header.insertRow(-1);
+        let th = document.createElement("th");
+        th.innerHTML = '';
+        tr.appendChild(th);
 
-        for (let i = 0; i < col.length; i++) {
+        Object.keys(tableParams).forEach(key => {
             let th = document.createElement("th");
-            if (col[i] == '') th.innerHTML = col[i];
-            else th.innerHTML = tableParams[col[i]].name;
+            th.innerHTML = tableParams[key].name;
             tr.appendChild(th);
-        }
+        });
 
         tr = header.insertRow(-1);
+        let td = document.createElement("td");
+        tr.appendChild(td);
 
-        for (let c of col) {
+        Object.keys(tableParams).forEach(key => {
             let td = document.createElement("td");
-            if (c != '') {
-                let size = tableParams[c].size ? tableParams[c].size : '';
-                td.innerHTML = `<input type="text" id="js-table-${c}" size="${size}">`;
-            }
+            let size = tableParams[key].size ? tableParams[key].size : '';
+            td.innerHTML = `<input type="text" id="js-table-${key}" size="${size}">`;
             tr.appendChild(td);
-        }
+        });
 
-        let body = table.createTBody();
+        table.createTBody();
 
-        for (var i = 0; i < data.length; i++) {
-
-            tr = body.insertRow(-1);
-
-            for (var j = 0; j < col.length; j++) {
-                var tabCell = tr.insertCell(-1);
-                if (j == 0) {
-                    tabCell.innerHTML = `<i data-id="${data[i].id}" class="fa fa-play js-play-track button-table"></i>`;
-                } else {
-                    tabCell.innerHTML = data[i][col[j]];
-                }
-
-            }
-        }
-
-        var divShowData = document.getElementById('play-list');
+        let divShowData = $('#play-list');
 
         divShowData.innerHTML = "";
-        divShowData.appendChild(table);
+        divShowData.append(table);
     }
 
-    getTableParameters();
-    getPlayer(offsetSong);
+    function addDataTable(data) {
+        let tbody = $('#play-list > table > tbody');
+        let table_body = '';
+
+        table_body += `<td><i data-id="${data.id}" class="fa fa-play js-play-track button-table"></i></td>`;
+        Object.keys(data).forEach(key => {
+            if (Object.keys(tableParams).indexOf(key) != -1) {
+                table_body += `<td>${data[key]}</td>`;
+            }
+        });
+        tbody.append('<tr>' + table_body + '</tr>');
+    }
+
+    function clearDataTable(data) {
+        console.log(data);
+
+    }
 
     $("#play-list").on("scroll", function () {
         if ($(this).scrollTop() == ($(this)[0].scrollHeight - $(this)[0].clientHeight)) {
@@ -374,4 +374,5 @@ $(function () {
             getPlayer(offsetSong);
         }
     });
+
 });
