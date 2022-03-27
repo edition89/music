@@ -25,17 +25,17 @@
             <div id="player-controls">
                 <div class="control">
                     <div class="button" id="play-previous">
-                        <i class="fas fa-backward"></i>
+                        <i class="fa fa-backward"></i>
                     </div>
                 </div>
                 <div class="control">
                     <div class="button" id="play-pause-button">
-                        <i class="fas fa-play"></i>
+                        <i class="fa fa-play"></i>
                     </div>
                 </div>
                 <div class="control">
                     <div class="button" id="play-next">
-                        <i class="fas fa-forward"></i>
+                        <i class="fa fa-forward"></i>
                     </div>
                 </div>
             </div>
